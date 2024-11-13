@@ -2,26 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
+  color: white;
+}
+
+@layer components {
+  .center {
+    @apply flex items-center justify-center;
+  }
+  .input-style {
+    @apply border rounded-[3px] border-neutral-400 p-1 placeholder:text-sm focus:bg-blue-300/20 focus:outline-none focus:shadow-[0_0_2px_2px_#49a4ce] duration-300 focus:shadow-blue-300;
+  }
+  .reg-button {
+    @apply bg-amber-400 w-full rounded-[9px] py-2 hover:bg-amber-500 shadow-md duration-300 cursor-pointer;
+  }
+  .divider {
+    @apply h-6 w-full relative before:absolute before:w-full before:bg-divider before:bottom-0 before:h-[1.5px];
+  }
+  .link-style {
+    @apply text-blue-600 hover:underline cursor-pointer capitalize;
+  }
+  .gray-hover {
+    @apply hover:bg-stone-600/40 px-3 py-2 rounded-md duration-300 cursor-pointer;
+  }
+  .blue-hover {
+    @apply text-blue-500 rounded-2xl bg-neutral-700 hover:bg-blue-400/20 duration-300 cursor-pointer py-1;
+  }
+  .review-input-style {
+    @apply border border-neutral-800 rounded-md placeholder:text-[12px] p-1 text-[12px] focus:border-blue-500 outline-none focus:outline focus:outline-blue-500 focus:outline-offset-2 focus:outline-2;
+  }
+  .gold-line-border {
+    @apply before:absolute before:left-0 before:w-1 py-1 before:bg-amber-400 before:h-full;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .clip {
+    clip-path: polygon(100% 0, 100% 100%, 50% 67%, 0 100%, 0 0);
   }
+
+  .slash-poligon {
+    clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+  }
+
+  .grad {
+    background: radial-gradient(circle, transparent 15%, rgb(32, 32, 32) 90%);
+  }
+}
+
+input[type="radio"] {
+  display: none;
 }
