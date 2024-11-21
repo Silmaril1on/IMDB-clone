@@ -8,7 +8,7 @@ const ScrollToTopButton = () => {
     });
   };
   return (
-    <div className="  w-full center z-[5] sticky top-10">
+    <div className="w-full center z-[5] sticky top-10">
       <button
         onClick={handleScrollToTop}
         className="bg-neutral-200 rounded-2xl px-5 py-1 shadow-lg text-black flex items-center space-x-1 hover:bg-neutral-300"

@@ -5,15 +5,14 @@ import { popUpStyle } from "@/app/animations/framermotion";
 import { FiPlus } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { BiDislike } from "react-icons/bi";
-import { FaStar } from "react-icons/fa";
+import ImdbRating from "./stars/ImdbRating";
 
 const InfoModal = ({
   setMovieInfoModal,
-  movie,
+  item,
   isInWatchlist,
   addToWatchlist,
   removeFromWatchlist,
-  imdbRating,
 }) => {
   const {
     moviePoster,
@@ -22,7 +21,7 @@ const InfoModal = ({
     movieLength,
     movieGenre,
     movieBio,
-  } = movie;
+  } = item;
 
   const handleWatchlist = () => {
     if (isInWatchlist) {
@@ -74,13 +73,7 @@ const InfoModal = ({
                 );
               })}
             </div>
-            <div className="flex space-x-2 items-center h-6">
-              <FaStar className="text-amber-400" />
-              <div className="flex items-center w-12">
-                <span className="w-[22px]">{imdbRating[movieTitle]}</span>
-                /10
-              </div>
-            </div>
+            <ImdbRating item={item} />
           </article>
         </div>
         <div>

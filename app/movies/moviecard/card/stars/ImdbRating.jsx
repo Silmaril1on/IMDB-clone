@@ -1,13 +1,10 @@
-import LoadingSpin from "@/app/components/LoadingSpin";
 import { FaStar } from "react-icons/fa";
 
-const ImdbRating = ({ movieTitle, imdbRating }) => {
+const ImdbRating = ({ item }) => {
   return (
-    <div className="center space-x-2 w-16">
+    <div className="flex items-center space-x-2 w-16">
       <FaStar className="text-amber-400" />
-      <span className="text-neutral-200">
-        {imdbRating !== null ? imdbRating[movieTitle] : <LoadingSpin />}
-      </span>
+      <span className="text-neutral-200">{item.imdb ? item.imdb : 0}</span>
     </div>
   );
 };

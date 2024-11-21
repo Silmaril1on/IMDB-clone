@@ -15,11 +15,13 @@ const ActiveIndexCard = ({
 }) => {
   const slidePrev = () => {
     setDirection(-1);
-    setActiveIndex(activeIndex === 0 ? newsData.length - 1 : activeIndex - 1);
+    setActiveIndex(
+      (prevIndex) => (prevIndex - 1 + newsData.length) % newsData.length
+    );
   };
   const slideNext = () => {
     setDirection(1);
-    setActiveIndex(activeIndex === newsData.length - 1 ? 0 : activeIndex + 1);
+    setActiveIndex((prevIndex) => (prevIndex + 1) % newsData.length);
   };
 
   return (
@@ -42,6 +44,7 @@ const ActiveIndexCard = ({
               width={800}
               height={800}
               alt={active.newsTitle}
+              priority
             />
             <div className="flex w-full items-end absolute bottom-10 p-3">
               <div className="w-40 rounded-xl overflow-hidden">
@@ -50,6 +53,7 @@ const ActiveIndexCard = ({
                   src={active.newsPoster}
                   width={400}
                   height={400}
+                  alt={active.newsTitle}
                 />
               </div>
               <article className="p-2 flex space-x-1">

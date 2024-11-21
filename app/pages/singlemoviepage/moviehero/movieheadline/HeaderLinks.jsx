@@ -3,7 +3,7 @@ import { IoMdShare } from "react-icons/io";
 
 const HeaderLinks = ({ data }) => {
   return (
-    <div className="items-center flex justify-end space-x-3 font-bold text-[12px] px-2">
+    <div className="items-center flex justify-end space-x-3 font-bold text-[14px] px-2">
       <Link href={`/${data.movieTitle}/fullcast`} className="hover:underline">
         Cast & Crew
       </Link>

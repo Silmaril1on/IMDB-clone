@@ -1,5 +1,4 @@
 import BookmarkSavedIcon from "@/app/components/BookmarkSavedIcon";
-import LoadingSpin from "@/app/components/LoadingSpin";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -8,11 +7,10 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const DetailedView = ({
   data,
+  addRecent,
   deleteMovie,
   handleModalClick,
   setSelectedMovie,
-  imdbRating,
-  ratingLoading,
 }) => {
   return (
     <div className="border border-neutral-400/60 p-2 rounded-md">
@@ -22,6 +20,7 @@ const DetailedView = ({
           moviePoster,
           movieTitle,
           id,
+          imdb,
           movieLength,
           movieBio,
           movieDirectors,
@@ -30,7 +29,10 @@ const DetailedView = ({
 
         return (
           <Link key={id} href={`/${movieTitle}`}>
-            <div className="text-black relative space-y-7 border-b border-neutral-400/60 pb-2">
+            <div
+              onClick={() => addRecent(item)}
+              className="text-black relative space-y-7 border-b border-neutral-400/60 pb-2"
+            >
               <div
                 className="absolute right-2 top-0"
                 onClick={(e) => {
@@ -45,7 +47,7 @@ const DetailedView = ({
                   size={30}
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col space-y-2">
                 <div className="flex">
                   <div className="h-28 relative">
                     <div
@@ -66,7 +68,7 @@ const DetailedView = ({
                       height={300}
                     />
                   </div>
-                  <article className="p-1">
+                  <article className="p-2">
                     <h1 className="capitalize font-bold">
                       <span>{index + 1}.</span> {movieTitle}
                     </h1>
@@ -76,11 +78,7 @@ const DetailedView = ({
                     </div>
                     <div className="flex items-center space-x-1 text-neutral-500">
                       <FaStar className="text-amber-400" />
-                      {ratingLoading ? (
-                        <LoadingSpin />
-                      ) : (
-                        <span>{imdbRating[movieTitle]}</span>
-                      )}
+                      <span>{imdb ? imdb : 0}</span>
                     </div>
                   </article>
                 </div>

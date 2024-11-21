@@ -15,7 +15,7 @@ const UsersRating = ({ setSelectedMovie, item }) => {
     const getUserRating = async () => {
       setLoading(true);
       try {
-        const ratingsData = await fetchUserRatings(item.movieTitle);
+        const ratingsData = await fetchUserRatings(item.id);
         const userSpecificRating = ratingsData.find(
           (rating) => rating.email === user?.email
         );
@@ -26,7 +26,7 @@ const UsersRating = ({ setSelectedMovie, item }) => {
       setLoading(false);
     };
     if (user) getUserRating();
-  }, [item.movieTitle, user]);
+  }, [item.id, user]);
 
   return (
     <div

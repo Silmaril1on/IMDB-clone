@@ -9,8 +9,6 @@ const WatchlistSide = () => {
   const lastAddedMovietoWatchlist = watchlist?.[watchlist.length - 1] || null;
   const lastRatedMovie = ratedMovies?.[ratedMovies.length - 1] || null;
 
-  console.log(ratedMovies, "rated");
-
   return (
     <div className="w-[35%] text-black flex flex-col py-5 pl-[5%] space-y-3">
       <h1 className="font-bold text-3xl relative gold-line-border px-3 mb-6">
@@ -42,6 +40,7 @@ const LastMovieOfWatchlist = ({ data, length }) => {
         <div className="w-20 rounded-md center overflow-hidden group-hover:brightness-90">
           {data?.moviePoster ? (
             <Image
+              className="w-full h-auto"
               src={data?.moviePoster}
               alt={data?.movieTitle}
               width={200}
@@ -68,6 +67,7 @@ const LastRatedMovie = ({ data, length }) => {
         </article>
         <div className="w-20 rounded-md overflow-hidden group-hover:brightness-90">
           <Image
+            className="w-full h-auto"
             src={data?.moviePoster}
             alt={data?.movieTitle}
             width={200}

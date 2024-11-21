@@ -12,9 +12,11 @@ const HomePage = () => {
         title="Superhero Movies"
         isShow={false}
       />
-      <MovieCardComponent category="action" title="Top Picks" isShow={false} />
+      <MovieCardComponent category="action" title="Top Pick" isShow={false} />
+
       <BornTodayActors />
       <MovieCardComponent category="tv show" title="TV Shows" isShow={true} />
+      <MovieCardComponent category="prime" title="Watch on Prime now" />
       <RecentlyView />
     </main>
   );

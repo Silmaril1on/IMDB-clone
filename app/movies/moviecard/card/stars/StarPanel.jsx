@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsersRating, handleStarPanel } from "@/app/features/moviesSlice";
 import { motion } from "framer-motion";
 import { popUpStyle } from "@/app/animations/framermotion";
+import { calculateAndSetAverageRating } from "@/app/utils";
 
 const StarsPanel = ({ movie }) => {
   const [hover, setHover] = useState(null);
@@ -22,7 +23,7 @@ const StarsPanel = ({ movie }) => {
 
   useEffect(() => {
     const fetchUserRating = async () => {
-      const movieRatingsRef = doc(db, "movie ratings", movie.movieTitle);
+      const movieRatingsRef = doc(db, "movie ratings", movie.id);
       const found = await getDoc(movieRatingsRef);
       const rating = (found.data() || {}).ratings || [];
       const myRating = rating.find((r) => r.email === auth.currentUser?.email);
@@ -31,10 +32,10 @@ const StarsPanel = ({ movie }) => {
       }
     };
     fetchUserRating();
-  }, [movie.movieTitle]);
+  }, [movie.id]);
 
   const updateRating = async () => {
-    const movieRatingsRef = doc(db, "movie ratings", movie.movieTitle);
+    const movieRatingsRef = doc(db, "movie ratings", movie.id);
     const found = await getDoc(movieRatingsRef);
     const rating = (found.data() || {}).ratings || [];
     const myRating = rating.find((r) => r.email === auth.currentUser?.email);
@@ -77,6 +78,7 @@ const StarsPanel = ({ movie }) => {
         movieRating: Number(userRatings),
       });
     }
+    await calculateAndSetAverageRating(movie.id);
     dispatch(handleStarPanel());
   };
 

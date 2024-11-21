@@ -14,10 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/app/firebase/firebaseConfig";
 import InfoModal from "./InfoModal";
-import {
-  calculateAndSetAverageRating,
-  createRecentlyViewed,
-} from "@/app/utils";
+import { createRecentlyViewed } from "@/app/utils";
 import LeftButton from "@/app/components/LeftButton";
 import RightButton from "@/app/components/RightButton";
 import { getRecentlyData, getWarning } from "@/app/features/moviesSlice";
@@ -29,7 +26,6 @@ const MovieCard = ({ movies }) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [watchlistStatus, setWatchlistStatus] = useState({});
   const [movieInfoModal, setMovieInfoModal] = useState(false);
-  const [imdbRating, setImdbRating] = useState(null);
   const itemsPerPage = 6;
   const cardWidth = 200;
   const cardMargin = 10;
@@ -77,6 +73,7 @@ const MovieCard = ({ movies }) => {
             movieYear: movie.movieYear,
             isAdded: true,
             addedAt: new Date().toISOString(),
+            imdb: movie.imdb ? movie.imdb : 0,
           }),
         },
         { merge: true }
@@ -112,6 +109,7 @@ const MovieCard = ({ movies }) => {
             movieActors: movie.movieActors,
             movieYear: movie.movieYear,
             isAdded: true,
+            imdb: imdb,
           }),
         },
         { merge: true }
@@ -125,20 +123,6 @@ const MovieCard = ({ movies }) => {
       console.error("Error removing movie from watchlist: ", error);
     }
   };
-
-  useEffect(() => {
-    const fetchRatings = async () => {
-      const ratingsData = {};
-      for (const movie of movies) {
-        const averageRating = await calculateAndSetAverageRating(
-          movie.movieTitle
-        );
-        ratingsData[movie.movieTitle] = averageRating;
-      }
-      setImdbRating(ratingsData);
-    };
-    fetchRatings();
-  }, [movies]);
 
   const handleMovieClick = async (movie) => {
     const newMovie = await createRecentlyViewed(movie, user, "movie");
@@ -162,9 +146,8 @@ const MovieCard = ({ movies }) => {
       {openStarPanel && selectedMovie && <StarsPanel movie={selectedMovie} />}
       {movieInfoModal && selectedMovie && (
         <InfoModal
-          imdbRating={imdbRating}
           setMovieInfoModal={setMovieInfoModal}
-          movie={selectedMovie}
+          item={selectedMovie}
           removeFromWatchlist={removeFromWatchlist}
           addToWatchlist={addToWatchlist}
           isInWatchlist={watchlistStatus[selectedMovie.id]}
@@ -208,7 +191,7 @@ const MovieCard = ({ movies }) => {
                       <Image
                         className="h-full brightness-90 w-full hover:brightness-100"
                         src={item.moviePoster}
-                        alt="movie-poster"
+                        alt={item.movieTitle}
                         width={500}
                         height={500}
                         quality={100}
@@ -217,7 +200,6 @@ const MovieCard = ({ movies }) => {
                     </div>
                     <MovieCardInfo
                       item={item}
-                      imdbRating={imdbRating}
                       addToWatchlist={
                         isInWatchlist ? removeFromWatchlist : addToWatchlist
                       }

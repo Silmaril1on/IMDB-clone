@@ -10,6 +10,18 @@ export const popUpStyle = {
   },
 };
 
+export const fromTop = {
+  hidden: {
+    y: "-100%",
+  },
+  visible: {
+    y: 0,
+    transition: {
+      duration: 0.6,
+    },
+  },
+};
+
 export const slideShow = {
   hidden: (direction) => {
     return {

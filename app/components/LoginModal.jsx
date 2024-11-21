@@ -20,10 +20,16 @@ const LoginModal = () => {
       />
       <h1>You are not logged in ! </h1>
       <div className="flex flex-col items-center space-y-4">
-        <Link href="/signin" className="reg-button px-3 text-center">
+        <Link
+          href="/registration/signin"
+          className="reg-button px-3 text-center"
+        >
           Sign-in
         </Link>
-        <Link href="/signup" className="reg-button px-3 text-center">
+        <Link
+          href="registration/signup"
+          className="reg-button px-3 text-center"
+        >
           Create your IMDb
         </Link>
       </div>

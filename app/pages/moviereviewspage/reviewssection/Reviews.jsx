@@ -6,14 +6,7 @@ import { useMotionValueEvent, useScroll } from "framer-motion";
 import ScrollToTopButton from "./ScrollToTopButton";
 import { fetchReviews } from "@/app/utils";
 import { db } from "@/app/firebase/firebaseConfig";
-import {
-  arrayRemove,
-  arrayUnion,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 
 const Reviews = ({ data }) => {
@@ -47,29 +40,23 @@ const Reviews = ({ data }) => {
     const userHasDisliked = reviewToUpdate.dislikes.includes(user.uid);
     try {
       const rRef = doc(db, "movie reviews", data.movieTitle, "reviews", id);
-
-      // If user liked, and now dislikes, remove the like and add dislike
       if (type === "dislike" && userHasLiked) {
         await updateDoc(rRef, {
-          likes: arrayRemove(user.uid), // Remove like
-          dislikes: arrayUnion(user.uid), // Add dislike
+          likes: arrayRemove(user.uid),
+          dislikes: arrayUnion(user.uid),
         });
-      }
-      // If user disliked, and now likes, remove the dislike and add like
-      else if (type === "like" && userHasDisliked) {
+      } else if (type === "like" && userHasDisliked) {
         await updateDoc(rRef, {
-          dislikes: arrayRemove(user.uid), // Remove dislike
-          likes: arrayUnion(user.uid), // Add like
+          dislikes: arrayRemove(user.uid),
+          likes: arrayUnion(user.uid),
         });
-      }
-      // If the user is adding a new like or dislike
-      else if (type === "like" && !userHasLiked) {
+      } else if (type === "like" && !userHasLiked) {
         await updateDoc(rRef, {
-          likes: arrayUnion(user.uid), // Add like
+          likes: arrayUnion(user.uid),
         });
       } else if (type === "dislike" && !userHasDisliked) {
         await updateDoc(rRef, {
-          dislikes: arrayUnion(user.uid), // Add dislike
+          dislikes: arrayUnion(user.uid),
         });
       }
       setReviewData((prevReviews) =>
@@ -89,8 +76,6 @@ const Reviews = ({ data }) => {
       console.error("Error updating review:", error);
     }
   };
-
-  console.log(reviewData, "//");
 
   const filteredReviews = ratingFilter
     ? reviewData.filter(

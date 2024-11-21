@@ -2,8 +2,6 @@ import { auth, db } from "@/app/firebase/firebaseConfig";
 import { addDoc, collection, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import ReviewSuccess from "./ReviewSuccess";
-import { fetchMovieRatings } from "@/app/utils";
-import { useSelector } from "react-redux";
 
 const Form = ({ data }) => {
   const [reviewHeadline, setReviewHeadline] = useState("");
@@ -13,23 +11,6 @@ const Form = ({ data }) => {
   const remainingLetters = letterLength - reviewText.length;
   const [disabled, setDisabled] = useState(true);
   const [reviewModal, setReviewModal] = useState(false);
-  const [movieRatings, setMovieRatings] = useState([]);
-  const { user } = useSelector((store) => store.user);
-
-  useEffect(() => {
-    const getMovieRatings = async () => {
-      const ratingsData = await fetchMovieRatings();
-      const currentMovie = ratingsData.find(
-        (item) => item.id === data.movieTitle
-      );
-      setMovieRatings(currentMovie ? currentMovie.ratings : []);
-    };
-    getMovieRatings();
-  }, [data.movieTitle]);
-
-  const userRating = movieRatings.find(
-    (item) => item.author === user.displayName
-  );
 
   const addReview = async (e) => {
     e.preventDefault();
@@ -43,7 +24,7 @@ const Form = ({ data }) => {
         author: auth.currentUser?.displayName,
         createdAt: new Date().toDateString(),
         spoiler: isSpoiler,
-        movieRating: userRating?.movieRating ?? null,
+        movieRating: data.imdb ? data.imdb : 0,
         likes: [],
         dislikes: [],
       });

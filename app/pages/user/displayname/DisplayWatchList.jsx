@@ -30,7 +30,7 @@ const DisplayList = () => {
         movie.ratings.some((rating) => rating.email === user?.email)
       );
       const matched = movies.filter((movie) =>
-        userRatedMovies.some((ratedMovie) => ratedMovie.id === movie.movieTitle)
+        userRatedMovies.some((ratedMovie) => ratedMovie.id === movie.id)
       );
       dispatch(getRatedMoviesData(matched));
     };

@@ -12,7 +12,6 @@ const MovieCardInfo = ({
   addToWatchlist,
   isInWatchlist,
   setMovieInfoModal,
-  imdbRating,
 }) => {
   const truncateString = (str, num) => {
     if (str?.length > num) {
@@ -25,7 +24,7 @@ const MovieCardInfo = ({
   return (
     <div className="flex flex-col my-2 p-2 space-y-2 items-center cursor-auto">
       <div className="flex justify-start w-full space-x-3">
-        <ImdbRating imdbRating={imdbRating} movieTitle={item.movieTitle} />
+        <ImdbRating item={item} />
         <UsersRating
           setSelectedMovie={setSelectedMovie}
           setOpenStarPanel={setOpenStarPanel}

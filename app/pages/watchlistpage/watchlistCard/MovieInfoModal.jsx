@@ -6,12 +6,7 @@ import { BiDislike } from "react-icons/bi";
 import { FaStar } from "react-icons/fa";
 import { IoMdCheckmark } from "react-icons/io";
 
-const MovieInfoModal = ({
-  handleModalClick,
-  movie,
-  deleteMovie,
-  imdbRating,
-}) => {
+const MovieInfoModal = ({ handleModalClick, movie, deleteMovie }) => {
   const {
     moviePoster,
     movieTitle,
@@ -19,6 +14,7 @@ const MovieInfoModal = ({
     movieLength,
     movieGenre,
     movieBio,
+    imdb,
     id,
   } = movie;
 
@@ -66,7 +62,7 @@ const MovieInfoModal = ({
             </div>
             <div className="flex space-x-2 items-center">
               <FaStar className="text-amber-400" />
-              {imdbRating[movieTitle]}/10
+              {imdb}/10
             </div>
           </article>
         </div>

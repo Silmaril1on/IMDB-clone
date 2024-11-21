@@ -1,11 +1,4 @@
-import {
-  arrayUnion,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
 
 export const fetchMovies = async () => {
@@ -49,28 +42,35 @@ export const fetchReviews = async (movieTitle) => {
   return movieReviews;
 };
 
-export const calculateAndSetAverageRating = async (movieTitle) => {
-  const movieRatingsRef = doc(db, "movie ratings", movieTitle);
-  const imdbRatingsRef = doc(db, "imdb ratings", movieTitle);
-  const ratingsSnapshot = await getDoc(movieRatingsRef);
-  const ratingsData = ratingsSnapshot.data()?.ratings || [];
-  if (ratingsData.length > 0) {
-    const totalRating = ratingsData.reduce(
-      (acc, curr) => acc + curr.movieRating,
-      0
-    );
-    const averageRating = totalRating / ratingsData.length;
-    await setDoc(imdbRatingsRef, { averageRating }, { merge: true });
-    return Number.isInteger(averageRating)
-      ? averageRating
-      : averageRating.toFixed(1);
-  } else {
-    return "0.0";
+export const calculateAndSetAverageRating = async (id) => {
+  const movieRatingsRef = doc(db, "movie ratings", id);
+  const movieDocRef = doc(db, "movies", id);
+  try {
+    const ratingsSnapshot = await getDoc(movieRatingsRef);
+    const ratingsData = ratingsSnapshot.data()?.ratings || [];
+    if (ratingsData.length > 0) {
+      const totalRating = ratingsData.reduce(
+        (acc, curr) => acc + curr.movieRating,
+        0
+      );
+      const averageRating = totalRating / ratingsData.length;
+      const rating =
+        averageRating % 1 === 0
+          ? Math.round(averageRating) // Save as an integer if it's a whole number
+          : averageRating.toFixed(1);
+      await setDoc(movieDocRef, { imdb: rating }, { merge: true });
+      return averageRating.toFixed(1);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error calculating and setting average rating:", error);
+    throw error;
   }
 };
 
-export const fetchUserRatings = async (movieTitle) => {
-  const ratingsRef = doc(db, "movie ratings", movieTitle);
+export const fetchUserRatings = async (id) => {
+  const ratingsRef = doc(db, "movie ratings", id);
   const ratingDoc = await getDoc(ratingsRef);
   return ratingDoc.exists() ? ratingDoc.data().ratings || [] : [];
 };
@@ -87,11 +87,23 @@ export const createRecentlyViewed = async (item, user, type) => {
       poster: type === "movie" ? item.moviePoster : item.actorAvatar,
       type: type,
     };
+    const userDoc = await getDoc(recentlyViewedRef);
+    let recentlyViewedItems = userDoc.exists()
+      ? userDoc.data().recentlyViewed || []
+      : [];
+    // Remove any existing item with the same ID
+    recentlyViewedItems = recentlyViewedItems.filter(
+      (viewedItem) => viewedItem.id !== newItem.id
+    );
+    // Add the new item to the beginning of the array
+    recentlyViewedItems.unshift(newItem);
+    // Limit the array to the most recent 20 items
+    if (recentlyViewedItems.length > 20) {
+      recentlyViewedItems.pop();
+    }
     await setDoc(
       recentlyViewedRef,
-      {
-        recentlyViewed: arrayUnion(newItem),
-      },
+      { recentlyViewed: recentlyViewedItems },
       { merge: true }
     );
     return newItem;

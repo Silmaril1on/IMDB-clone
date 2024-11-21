@@ -7,6 +7,7 @@ const initialState = {
   ratedMovies: [],
   recently: [],
   userRatings: 0,
+  menuSettingsModal: false,
   warning: false,
   openPhotos: false,
   openStarPanel: false,
@@ -41,6 +42,9 @@ const moviesSlice = createSlice({
     handleOpenPhoto: (state) => {
       state.openPhotos = !state.openPhotos;
     },
+    handleMenuSettings: (state) => {
+      state.menuSettingsModal = !state.menuSettingsModal;
+    },
     handleStarPanel: (state) => {
       state.openStarPanel = !state.openStarPanel;
     },
@@ -58,6 +62,7 @@ export const {
   getUsersRating,
   getRatedMoviesData,
   handleOpenPhoto,
+  handleMenuSettings,
   handleStarPanel,
   handleReviewPanel,
   getRecentlyData,

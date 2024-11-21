@@ -12,7 +12,7 @@ const MovieCardComponent = ({ category, title, isShow }) => {
   const dispatch = useDispatch();
   const { warning, movies } = useSelector((store) => store.movie);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getMovies = async () => {

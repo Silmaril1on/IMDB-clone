@@ -8,7 +8,6 @@ const GridView = ({
   deleteMovie,
   handleModalClick,
   setSelectedMovie,
-  imdbRating,
 }) => {
   return (
     <div>
@@ -40,7 +39,7 @@ const GridView = ({
                   <div className="flex items-center space-x-2 text-neutral-500">
                     <FaStar className="text-amber-400" />
 
-                    <span>{imdbRating[item.movieTitle]}</span>
+                    <span>{item.imdb}</span>
                   </div>
                   <div className="flex text-neutral-600 space-x-2">
                     <span>{index + 1}.</span>
