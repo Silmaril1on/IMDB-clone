@@ -1,12 +1,30 @@
+"use client";
+import { getRecentlyData } from "@/app/features/moviesSlice";
+import { createRecentlyViewed } from "@/app/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 
 const MovieResult = ({ data, setIsOpen }) => {
   const { moviePoster, movieTitle, movieYear } = data;
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.user);
+  const { recently } = useSelector((store) => store.movie);
+
+  const handleMovieClick = async (movie) => {
+    const newMovie = await createRecentlyViewed(movie, user, "movie");
+    if (newMovie) {
+      dispatch(getRecentlyData([newMovie, ...recently]));
+    }
+  };
+
   return (
     <Link href={`/${movieTitle}`}>
       <div
-        onClick={() => setIsOpen(false)}
+        onClick={() => {
+          setIsOpen(false);
+          handleMovieClick(data);
+        }}
         className="flex items-center space-x-2"
       >
         <Image

@@ -51,23 +51,26 @@ const MovieImageSlider = ({ data }) => {
       </div>
       <div className="w-[70%] h-[75%] bg-black center relative group overflow-hidden">
         {data.moviePhotos ? (
-          <Image
-            className="w-full"
-            src={data.moviePhotos[active]}
-            alt="movie-photos"
-            width={800}
-            height={800}
-          />
+          <>
+            <Image
+              className="w-full"
+              src={data.moviePhotos[active]}
+              alt="movie-photos"
+              width={900}
+              height={900}
+              priority
+            />
+            <div className="absolute flex items-center w-full justify-between px-4 opacity-0 group-hover:opacity-100 duration-300">
+              <LeftButton onClick={handlePrev} />
+              <RightButton onClick={handleNext} />
+            </div>
+          </>
         ) : (
           <h1 className="text-amber-400 text-2xl text-center">
             Photo gallery is currently empty... <br /> Please upload any photos
             from this movie
           </h1>
         )}
-        <div className="absolute flex items-center w-full justify-between px-4 opacity-0 group-hover:opacity-100 duration-300">
-          <LeftButton onClick={handlePrev} />
-          <RightButton onClick={handleNext} />
-        </div>
       </div>
       <div className="absolute right-8 bottom-8">
         {openUpload || (

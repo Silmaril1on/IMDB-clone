@@ -7,8 +7,9 @@ import MovieCard from "./card/MovieCard";
 import LoginModal from "@/app/components/LoginModal";
 import LoadingSpin from "@/app/components/LoadingSpin";
 import SectionHeader from "@/app/components/SectionHeader";
+import SectionSubHeader from "@/app/components/SectionSubHeader";
 
-const MovieCardComponent = ({ category, title, isShow }) => {
+const MovieCardComponent = ({ category, title, subTitle }) => {
   const dispatch = useDispatch();
   const { warning, movies } = useSelector((store) => store.movie);
   const [error, setError] = useState("");
@@ -37,23 +38,11 @@ const MovieCardComponent = ({ category, title, isShow }) => {
     getMovies();
   }, [dispatch, category, movies.length]);
 
-  const filteredMovies = movies.filter((movie) => {
-    if (isShow) {
-      return movie.movieGenre.some(
-        (genre) => genre.toLowerCase().trim() === "tv show"
-      );
-    } else {
-      return (
-        movie.movieGenre.some(
-          (genre) =>
-            genre.toLowerCase().trim() === category.toLowerCase().trim()
-        ) &&
-        !movie.movieGenre.some(
-          (genre) => genre.toLowerCase().trim() === "tv show"
-        )
-      );
-    }
-  });
+  const filteredMovies = movies.filter((movie) =>
+    movie.movieGenre.some(
+      (genre) => genre.toLowerCase().trim() === category.toLowerCase().trim()
+    )
+  );
 
   return (
     <div>
@@ -65,6 +54,7 @@ const MovieCardComponent = ({ category, title, isShow }) => {
       ) : (
         <section className="my-10">
           <SectionHeader>{title}</SectionHeader>
+          <SectionSubHeader>{subTitle}</SectionSubHeader>
           <MovieCard movies={filteredMovies} />
         </section>
       )}

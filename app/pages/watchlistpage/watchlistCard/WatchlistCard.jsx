@@ -13,19 +13,18 @@ import { createRecentlyViewed } from "@/app/utils";
 import { getRecentlyData } from "@/app/features/moviesSlice";
 
 const WatchlistCard = ({ dataType }) => {
-  const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.user);
+  const { scrollY } = useScroll();
+  const [activeLayout, setActiveLyout] = useState(0);
+  const [watchlistModal, setWatchlistModal] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [hidden, setHidden] = useState(false);
   const { watchlist, ratedMovies, recently } = useSelector(
     (store) => store.movie
   );
   const userDocRef = doc(db, "users watchlist", `${user?.email}`);
-  const [activeLayout, setActiveLyout] = useState(0);
-  const [watchlistModal, setWatchlistModal] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const movies = dataType === "watchlist" ? watchlist : ratedMovies;
-
-  const [hidden, setHidden] = useState(false);
-  const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();

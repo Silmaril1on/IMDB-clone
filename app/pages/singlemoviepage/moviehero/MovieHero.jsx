@@ -20,7 +20,10 @@ const MovieHero = ({ data }) => {
         <HeaderLinks data={data} />
         <header className="flex py-2">
           <MovieHeader data={data} />
-          <MovieRatingsSection data={data} />
+          <MovieRatingsSection
+            className="text-neutral-300 justify-end"
+            data={data}
+          />
         </header>
         <MovieMedia data={data} />
         <MovieDesc data={data} />

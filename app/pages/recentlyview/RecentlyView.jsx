@@ -55,21 +55,27 @@ const RecentlyView = () => {
       <div className="w-full my-4">
         <SectionHeader>Recently Viewed</SectionHeader>
       </div>
-      <section
-        className="overflow-hidden relative flex items-center group"
-        style={{ width: `${(cardWidth + 2 * cardMargin) * itemsPerPage}px` }}
-      >
-        <RecentlyViewList
-          recently={recently}
-          currentIndex={currentIndex}
-          cardWidth={cardWidth}
-          cardMargin={cardMargin}
-        />
-        <div className="absolute opacity-0 group-hover:opacity-100 mb-20 w-full flex justify-between *:absolute *:z-10">
-          <LeftButton className="left-[10px]" onClick={slidePrev} />
-          <RightButton className="right-[10px]" onClick={slideNext} />
+      {recently.length > 0 ? (
+        <section
+          className="overflow-hidden relative flex items-center group"
+          style={{ width: `${(cardWidth + 2 * cardMargin) * itemsPerPage}px` }}
+        >
+          <RecentlyViewList
+            recently={recently}
+            currentIndex={currentIndex}
+            cardWidth={cardWidth}
+            cardMargin={cardMargin}
+          />
+          <div className="absolute opacity-0 group-hover:opacity-100 mb-20 w-full flex justify-between *:absolute *:z-10">
+            <LeftButton className="left-[10px]" onClick={slidePrev} />
+            <RightButton className="right-[10px]" onClick={slideNext} />
+          </div>
+        </section>
+      ) : (
+        <div className="center py-20 text-2xl font-bold text-neutral-500 w-full ">
+          <h1>You are not logged in to track your recently viewed lists</h1>
         </div>
-      </section>
+      )}
     </div>
   );
 };

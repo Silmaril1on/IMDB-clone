@@ -9,14 +9,20 @@ const HomePage = () => {
       <News />
       <MovieCardComponent
         category="superhero"
-        title="Superhero Movies"
-        isShow={false}
+        subTitle="TV shows and Movies just for you"
+        title="Top Picks"
       />
-      <MovieCardComponent category="action" title="Top Pick" isShow={false} />
-
+      <MovieCardComponent
+        category="tv show"
+        subTitle="Explore various TV Shows"
+        title="TV Shows"
+      />
       <BornTodayActors />
-      <MovieCardComponent category="tv show" title="TV Shows" isShow={true} />
-      <MovieCardComponent category="prime" title="Watch on Prime now" />
+      <MovieCardComponent
+        category="prime"
+        subTitle="This month's Prime selection"
+        title="Watch on Prime"
+      />
       <RecentlyView />
     </main>
   );

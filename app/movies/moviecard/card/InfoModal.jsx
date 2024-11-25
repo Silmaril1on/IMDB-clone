@@ -9,7 +9,7 @@ import ImdbRating from "./stars/ImdbRating";
 
 const InfoModal = ({
   setMovieInfoModal,
-  item,
+  movie,
   isInWatchlist,
   addToWatchlist,
   removeFromWatchlist,
@@ -21,7 +21,7 @@ const InfoModal = ({
     movieLength,
     movieGenre,
     movieBio,
-  } = item;
+  } = movie;
 
   const handleWatchlist = () => {
     if (isInWatchlist) {
@@ -73,7 +73,7 @@ const InfoModal = ({
                 );
               })}
             </div>
-            <ImdbRating item={item} />
+            <ImdbRating item={movie} />
           </article>
         </div>
         <div>

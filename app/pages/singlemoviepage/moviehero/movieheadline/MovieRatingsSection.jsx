@@ -3,11 +3,12 @@ import ImdbStar from "@/app/components/ImdbStar";
 import LoadingSpin from "@/app/components/LoadingSpin";
 import { getWarning, handleStarPanel } from "@/app/features/moviesSlice";
 import { db } from "@/app/firebase/firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const MovieRatingsSection = ({ data }) => {
+const MovieRatingsSection = ({ data, className, textColor }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
   const [ratingsLength, setRatingsLength] = useState(0);
@@ -56,22 +57,27 @@ const MovieRatingsSection = ({ data }) => {
   };
 
   return (
-    <div className="w-[50%] flex items-center justify-end space-x-10">
-      <div className="flex flex-col items-center text-neutral-300">
+    <div className={`w-[50%] flex items-center  space-x-10 ${className}`}>
+      <div className="flex flex-col items-center ">
         <h1 className="font-bold text-[12px] tracking-widest">IMDb RATING</h1>
-        <div className="flex items-center gray-hover">
-          <ImdbStar size={30} className="text-amber-400" />
-          <div className="flex flex-col -space-y-2 ml-2">
-            <span className="text-xl leading-1">
-              <strong className="text-white">{data.imdb}</strong> /10
-            </span>
-            <span className="text-[12px]">
-              {formatVoteCount(ratingsLength)}
-            </span>
+        <Link href={`/movierating/${data.movieTitle}`}>
+          <div className="flex items-center gray-hover">
+            <ImdbStar size={30} className="text-amber-400" />
+            <div className="flex flex-col -space-y-2 ml-2">
+              <span className="text-xl leading-1">
+                <strong className={`${textColor || "text-white"}`}>
+                  {data.imdb}
+                </strong>
+                /10
+              </span>
+              <span className="text-[12px]">
+                {formatVoteCount(ratingsLength)}
+              </span>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
-      <div className="flex flex-col items-center text-neutral-300">
+      <div className="flex flex-col items-center ">
         <h1 className="font-bold text-[12px] tracking-widest">YOUR RATING</h1>
         <div
           className="flex items-center gray-hover"
@@ -90,7 +96,10 @@ const MovieRatingsSection = ({ data }) => {
           ) : (
             <div className="flex flex-col ml-2 py-1">
               <span className="text-xl">
-                <strong className="text-white">{currentMovieRate}</strong> /10
+                <strong className={`${textColor || "text-white"}`}>
+                  {currentMovieRate}
+                </strong>
+                /10
               </span>
             </div>
           )}

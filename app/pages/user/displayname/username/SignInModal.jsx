@@ -13,7 +13,7 @@ const SignInModal = () => {
       setActive(true);
       const hideTimeout = setTimeout(() => {
         setActive(false);
-      }, 7000);
+      }, 5000);
       return () => clearTimeout(hideTimeout);
     }, 1500);
     return () => clearTimeout(showTimeout);

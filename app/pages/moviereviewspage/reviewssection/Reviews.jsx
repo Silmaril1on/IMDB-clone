@@ -40,34 +40,42 @@ const Reviews = ({ data }) => {
     const userHasDisliked = reviewToUpdate.dislikes.includes(user.uid);
     try {
       const rRef = doc(db, "movie reviews", data.movieTitle, "reviews", id);
-      if (type === "dislike" && userHasLiked) {
-        await updateDoc(rRef, {
-          likes: arrayRemove(user.uid),
-          dislikes: arrayUnion(user.uid),
-        });
-      } else if (type === "like" && userHasDisliked) {
-        await updateDoc(rRef, {
-          dislikes: arrayRemove(user.uid),
-          likes: arrayUnion(user.uid),
-        });
-      } else if (type === "like" && !userHasLiked) {
-        await updateDoc(rRef, {
-          likes: arrayUnion(user.uid),
-        });
-      } else if (type === "dislike" && !userHasDisliked) {
-        await updateDoc(rRef, {
-          dislikes: arrayUnion(user.uid),
-        });
+      if (type === "like") {
+        if (userHasLiked) {
+          await updateDoc(rRef, { likes: arrayRemove(user.uid) });
+        } else {
+          await updateDoc(rRef, {
+            likes: arrayUnion(user.uid),
+            dislikes: arrayRemove(user.uid),
+          });
+        }
+      } else if (type === "dislike") {
+        if (userHasDisliked) {
+          await updateDoc(rRef, { dislikes: arrayRemove(user.uid) });
+        } else {
+          await updateDoc(rRef, {
+            dislikes: arrayUnion(user.uid),
+            likes: arrayRemove(user.uid),
+          });
+        }
       }
       setReviewData((prevReviews) =>
         prevReviews.map((review) =>
           review.id === id
             ? {
                 ...review,
-                likes: review.likes.filter((userId) => userId !== user.uid),
-                dislikes: review.dislikes.filter(
-                  (userId) => userId !== user.uid
-                ),
+                likes:
+                  type === "like"
+                    ? userHasLiked
+                      ? review.likes.filter((uid) => uid !== user.uid)
+                      : [...review.likes, user.uid]
+                    : review.likes.filter((uid) => uid !== user.uid),
+                dislikes:
+                  type === "dislike"
+                    ? userHasDisliked
+                      ? review.dislikes.filter((uid) => uid !== user.uid)
+                      : [...review.dislikes, user.uid]
+                    : review.dislikes.filter((uid) => uid !== user.uid),
               }
             : review
         )

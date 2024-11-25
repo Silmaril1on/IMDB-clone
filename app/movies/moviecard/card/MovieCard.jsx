@@ -109,7 +109,7 @@ const MovieCard = ({ movies }) => {
             movieActors: movie.movieActors,
             movieYear: movie.movieYear,
             isAdded: true,
-            imdb: imdb,
+            imdb: movie.imdb,
           }),
         },
         { merge: true }
@@ -147,7 +147,7 @@ const MovieCard = ({ movies }) => {
       {movieInfoModal && selectedMovie && (
         <InfoModal
           setMovieInfoModal={setMovieInfoModal}
-          item={selectedMovie}
+          movie={selectedMovie}
           removeFromWatchlist={removeFromWatchlist}
           addToWatchlist={addToWatchlist}
           isInWatchlist={watchlistStatus[selectedMovie.id]}
@@ -167,7 +167,7 @@ const MovieCard = ({ movies }) => {
               width: `${(cardWidth + 2 * cardMargin) * movies.length}px`,
             }}
           >
-            {movies.slice(0, 30).map((item) => {
+            {movies.slice(0, 29).map((item) => {
               const isInWatchlist = watchlistStatus[item.id];
               return (
                 <Link key={item.id} href={`/${item.movieTitle}`}>
